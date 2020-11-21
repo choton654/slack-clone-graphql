@@ -1,45 +1,45 @@
-import { useMutation } from "@apollo/client"
-import { navigate } from "gatsby"
-import React, { useState } from "react"
-import { Button, Container, Form, Message } from "semantic-ui-react"
-import { CREATE_USER } from "../graphql/mutation"
-import { GET_USERS } from "../graphql/query"
+import { useMutation } from "@apollo/client";
+import { navigate } from "@reach/router";
+import React, { useState } from "react";
+import { Button, Container, Form, Message } from "semantic-ui-react";
+import { CREATE_USER } from "../graphql/mutation";
+import { GET_USERS } from "../graphql/query";
 
 const Register = () => {
   const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
-  })
+  });
   const [error, setError] = useState({
     error: false,
     message: "",
-  })
+  });
   const [success, setSuccess] = useState({
     success: false,
     message: "User has successfully registered",
-  })
+  });
   const [createUser, { data }] = useMutation(CREATE_USER, {
     refetchQueries: [
       {
         query: GET_USERS,
       },
     ],
-  })
-  const handleChange = e => {
+  });
+  const handleChange = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
-    })
+    });
     setError({
       ...error,
       error: false,
-    })
-  }
+    });
+  };
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log(user)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(user);
     createUser({
       variables: {
         username: user.username,
@@ -47,32 +47,32 @@ const Register = () => {
         password: user.password,
       },
     })
-      .then(data => {
-        console.log(data)
+      .then((data) => {
+        console.log(data);
         setSuccess({
           ...success,
           success: true,
-        })
+        });
         setError({
           ...error,
           error: false,
-        })
-        navigate("/")
+        });
+        navigate("/");
       })
-      .catch(err => {
-        console.error(err.message)
+      .catch((err) => {
+        console.error(err.message);
         setError({
           ...error,
           error: true,
           message: err.message,
-        })
-      })
+        });
+      });
     setUser({
       username: "",
       email: "",
       password: "",
-    })
-  }
+    });
+  };
 
   return (
     <Container>
@@ -132,7 +132,7 @@ const Register = () => {
         <Button type="submit">Submit</Button>
       </Form>
     </Container>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

@@ -1,21 +1,20 @@
-import { useApolloClient, useMutation } from "@apollo/client"
-import { useFormik } from "formik"
-import { findIndex } from "lodash"
-import React from "react"
-import { Button, Checkbox, Form, Input, Modal } from "semantic-ui-react"
-import { CREATE_CHANNEL } from "../graphql/mutation"
-import { allTeamsQuery, meQuery } from "../graphql/query"
-import MultiSelectUsers from "./MultiSelectUsers"
+import { useApolloClient } from "@apollo/client";
+import { useFormik } from "formik";
+import React from "react";
+import { Button, Checkbox, Form, Input, Modal } from "semantic-ui-react";
+import { CREATE_CHANNEL } from "../graphql/mutation";
+import { meQuery } from "../graphql/query";
+import MultiSelectUsers from "./MultiSelectUsers";
 
 function AddChannelModal({ open, onClose, teamId, currentUserId }) {
-  const client = useApolloClient()
+  const client = useApolloClient();
   const formik = useFormik({
     initialValues: {
       name: "",
       public: true,
       members: [],
     },
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       try {
         const res = await client.mutate({
           mutation: CREATE_CHANNEL,
@@ -38,18 +37,18 @@ function AddChannelModal({ open, onClose, teamId, currentUserId }) {
             },
           },
           update: (store, { data: { createChannel } }) => {
-            const { ok, channel } = createChannel
+            const { ok, channel } = createChannel;
 
             if (!ok) {
-              return
+              return;
             }
-            const data = store.readQuery({ query: meQuery })
+            const data = store.readQuery({ query: meQuery });
             // const teamIdx = findIndex(data.me.teams, ["id", teamId])
             // data.me.teams[teamIdx].channels.push(channel)
             store.writeQuery({
               query: meQuery,
               data: {
-                me: data.me.teams.map(team =>
+                me: data.me.teams.map((team) =>
                   team.id === teamId
                     ? {
                         ...team,
@@ -58,15 +57,15 @@ function AddChannelModal({ open, onClose, teamId, currentUserId }) {
                     : team
                 ),
               },
-            })
+            });
           },
-        })
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-      onClose()
+      onClose();
     },
-  })
+  });
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -88,8 +87,8 @@ function AddChannelModal({ open, onClose, teamId, currentUserId }) {
               label="Private"
               checked={!formik.values.public}
               onChange={(e, { checked }) => {
-                console.log(checked)
-                formik.setFieldValue("public", !checked)
+                console.log(checked);
+                formik.setFieldValue("public", !checked);
               }}
             />
           </Form.Field>
@@ -98,8 +97,8 @@ function AddChannelModal({ open, onClose, teamId, currentUserId }) {
               <MultiSelectUsers
                 value={formik.values.members}
                 handleChange={(e, { value }) => {
-                  console.log(value)
-                  formik.setFieldValue("members", value)
+                  console.log(value);
+                  formik.setFieldValue("members", value);
                 }}
                 teamId={teamId}
                 currentUserId={currentUserId}
@@ -116,10 +115,10 @@ function AddChannelModal({ open, onClose, teamId, currentUserId }) {
         </Form>
       </Modal.Content>
     </Modal>
-  )
+  );
 }
 
-export default AddChannelModal
+export default AddChannelModal;
 
 // createChannel({
 //   optimisticResponse: {

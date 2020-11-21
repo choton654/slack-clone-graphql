@@ -1,34 +1,32 @@
-import React, { useEffect } from "react"
-import { Form, Input, Button, Modal } from "semantic-ui-react"
-import Downshift from "downshift"
-import { navigate } from "gatsby"
-import findIndex from "lodash/findIndex"
-import { InMemoryCache, useApolloClient, useQuery } from "@apollo/client"
-import { getTeamMembersQuery, meQuery } from "../graphql/query"
-import MultiSelectUsers from "./MultiSelectUsers"
-import { useFormik } from "formik"
-import { getOrCreateChannelMutation } from "../graphql/mutation"
+import { InMemoryCache, useApolloClient } from "@apollo/client";
+import { useFormik } from "formik";
+import findIndex from "lodash/findIndex";
+import React from "react";
+import { Button, Form, Modal } from "semantic-ui-react";
+import { getOrCreateChannelMutation } from "../graphql/mutation";
+import { meQuery } from "../graphql/query";
+import MultiSelectUsers from "./MultiSelectUsers";
 
 const DirectMessageModal = ({ open, onClose, teamId, currentUserId }) => {
-  const client = useApolloClient()
-  const cache = new InMemoryCache()
+  const client = useApolloClient();
+  const cache = new InMemoryCache();
   const formik = useFormik({
     initialValues: {
       members: [],
     },
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       try {
         const res = await client.mutate({
           mutation: getOrCreateChannelMutation,
           variables: { members: values.members, teamId },
           update: (store, { data: { getOrCreateChannel } }) => {
-            const { id, name } = getOrCreateChannel
+            const { id, name } = getOrCreateChannel;
 
-            const data = store.readQuery({ query: meQuery })
-            const teamIdx = findIndex(data.me.teams, ["id", teamId])
+            const data = store.readQuery({ query: meQuery });
+            const teamIdx = findIndex(data.me.teams, ["id", teamId]);
             const notInChannelList = data.me.teams[teamIdx].channels.every(
-              c => c.id !== id
-            )
+              (c) => c.id !== id
+            );
             if (notInChannelList) {
               // data.me.teams[teamIdx].channels.push({
               //   __typename: "Channel",
@@ -39,7 +37,7 @@ const DirectMessageModal = ({ open, onClose, teamId, currentUserId }) => {
               store.writeQuery({
                 query: meQuery,
                 data: {
-                  me: data.me.teams.map(team =>
+                  me: data.me.teams.map((team) =>
                     team.id === teamId
                       ? {
                           ...team,
@@ -51,18 +49,18 @@ const DirectMessageModal = ({ open, onClose, teamId, currentUserId }) => {
                       : team
                   ),
                 },
-              })
+              });
             }
             // navigate(`/app/view-twam/${teamId}/${id}`)
           },
-        })
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-      onClose()
-      formik.resetForm()
+      onClose();
+      formik.resetForm();
     },
-  })
+  });
 
   // if (loading) return "Loading..."
   // if (error) return `Error! ${error.message}`
@@ -87,9 +85,9 @@ const DirectMessageModal = ({ open, onClose, teamId, currentUserId }) => {
             <Button
               disabled={formik.isSubmitting}
               fluid
-              onClick={e => {
-                formik.resetForm()
-                onClose(e)
+              onClick={(e) => {
+                formik.resetForm();
+                onClose(e);
               }}
             >
               Cancel
@@ -105,10 +103,10 @@ const DirectMessageModal = ({ open, onClose, teamId, currentUserId }) => {
         </Form>
       </Modal.Content>
     </Modal>
-  )
-}
+  );
+};
 
-export default DirectMessageModal
+export default DirectMessageModal;
 
 // const { loading, error, data } = useQuery(getTeamMembersQuery, {
 //   variables: { teamId },

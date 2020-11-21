@@ -1,65 +1,54 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
-export default function Home() {
+// import { Router } from "@reach/router";
+import React from "react";
+import Home from "../components/Home";
+import Post from "../components/Post";
+import Comment from "../components/Comment";
+import CreateTeam from "../routes/create-team";
+import DirectMessage from "../routes/direct-message";
+import PrivateRoute from "../routes/protected-route";
+import ViewTeams from "../routes/view-teams";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+const App = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
-}
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/comment">Comment</Link>
+          </li>
+          <li>
+            <Link to="/post">Post</Link>
+          </li>
+          <li>
+            <Link to="/view-team">View Team</Link>
+          </li>
+          <li>
+            <Link to="/create-team">Create Team</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/post" component={Post} />
+          <Route exact path="/comment" component={Comment} />
+          <PrivateRoute exact path="/create-team" component={CreateTeam} />
+          <PrivateRoute exact="/view-team/" component={ViewTeams} />
+          <PrivateRoute
+            exact
+            path="/view-team/:teamId/user/:userId"
+            component={DirectMessage}
+          />
+          <PrivateRoute exact path="/view-team/:teamId" component={ViewTeams} />
+          <PrivateRoute
+            exact
+            path="/view-team/:teamId/:channelId"
+            component={ViewTeams}
+          />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+export default App;

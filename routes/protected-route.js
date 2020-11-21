@@ -1,32 +1,34 @@
-import { navigate } from "gatsby"
-import decode from "jwt-decode"
-import React from "react"
+import { navigate } from "@reach/router";
+import { useHistory } from "react-router-dom";
+import decode from "jwt-decode";
+import React from "react";
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
+  const history = useHistory();
   const isAuthenticated = () => {
-    const token = localStorage.getItem("token")
-    const refreshToken = localStorage.getItem("refreshToken")
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     try {
-      decode(token)
-      decode(refreshToken)
+      decode(token);
+      decode(refreshToken);
       // const currentTime = Date.now() / 1000
       // const decode = jwt_decode(token)
       // if (decode.exp < currentTime) {
       //   token = null
       // }
-      return true
+      return true;
     } catch (err) {
-      window.location.hash = "app/login"
-      return false
+      window.location.hash = "app/login";
+      return false;
     }
-  }
+  };
 
   if (!isAuthenticated() && location.pathname !== `/login`) {
-    navigate("/login")
-    return null
+    history.pushState("/login");
+    return null;
   }
 
-  return <Component {...rest} />
-}
+  return <Component {...rest} />;
+};
 
-export default PrivateRoute
+export default PrivateRoute;

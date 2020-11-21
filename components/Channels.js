@@ -1,28 +1,28 @@
-import { Link } from "gatsby"
-import React from "react"
-import { Icon } from "semantic-ui-react"
-import styled from "styled-components"
-import decode from "jwt-decode"
+import { Link } from "@reach/router";
+import React from "react";
+import { Icon } from "semantic-ui-react";
+import styled from "styled-components";
+import decode from "jwt-decode";
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
   grid-row: 1 / 4;
   background-color: #4e3a4c;
   color: #958993;
-`
+`;
 
 const TeamNameHeader = styled.h1`
   color: #fff;
   font-size: 20px;
-`
+`;
 
 const SideBarList = styled.ul`
   width: 100%;
   list-style: none;
   padding-left: 0px;
-`
+`;
 
-const paddingLeft = "padding-left: 10px"
+const paddingLeft = "padding-left: 10px";
 
 const SideBarListItem = styled.li`
   padding: 2px;
@@ -30,19 +30,19 @@ const SideBarListItem = styled.li`
   &:hover {
     background: #3e313c;
   }
-`
+`;
 const SideBarListHeader = styled.li`
   ${paddingLeft};
-`
+`;
 
 const PushLeft = styled.div`
   ${paddingLeft};
-`
+`;
 
 const Green = styled.span`
   color: #38978d;
-`
-const Bubble = ({ on = true }) => (on ? <Green>●</Green> : "○")
+`;
+const Bubble = ({ on = true }) => (on ? <Green>●</Green> : "○");
 
 function Channels({
   teamName,
@@ -62,7 +62,7 @@ function Channels({
         <Bubble /> {name}
       </Link>
     </SideBarListItem>
-  )
+  );
 
   return (
     <ChannelWrapper>
@@ -92,7 +92,7 @@ function Channels({
             <Icon onClick={onDirectMessageClick} name="add circle" />
           </SideBarListHeader>
 
-          {dmChannels.map(dmC => dmChannel(dmC, teamId))}
+          {dmChannels.map((dmC) => dmChannel(dmC, teamId))}
         </SideBarList>
       </div>
       {isOwner && (
@@ -103,10 +103,10 @@ function Channels({
         </div>
       )}
     </ChannelWrapper>
-  )
+  );
 }
 
-export default Channels
+export default Channels;
 
 {
   /* {users?.map(({ id, username }) => {

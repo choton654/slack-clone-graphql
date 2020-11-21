@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 const { auth, refreshtokens, SECRET } = require("./middleware/authMiddleware");
 const resolvers = require("./resolvers");
 const typeDefs = require("./typeDefs");
-
 const dev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3000;
 const nestApp = nextJS({ dev });
@@ -54,7 +53,6 @@ async function start() {
         throw new Error("Missing auth tokens");
       },
     },
-    // playground: !IN_PROD,
   });
   server.applyMiddleware({ app });
   const httpServer = http.createServer(app);
