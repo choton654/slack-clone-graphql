@@ -1,4 +1,4 @@
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
 
@@ -39,7 +39,7 @@ function Teams({ teams }) {
     <TeamWrapper>
       <TeamList>
         {teams.map(({ id, letter }) => (
-          <Link to={`/app/view-team/${id}`} key={`team-${id}`}>
+          <Link to={`/view-team/${id}`} key={`team-${id}`}>
             <TeamListItem>{letter}</TeamListItem>
           </Link>
         ))}

@@ -1,10 +1,14 @@
 import { useApolloClient } from "@apollo/client";
-import { navigate } from "@reach/router";
+import router from "next/router";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button, Container, Form, Message } from "semantic-ui-react";
+import Layout from "../components/layout";
 import { USER_LOGIN } from "../graphql/mutation";
 
 const Login = () => {
+  const history = useHistory();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -43,7 +47,9 @@ const Login = () => {
             data.data.loginUser.refreshToken
           );
           // wsLink.subscriptionClient.tryConnect()
-          navigate("/app");
+          // navigate("/app");
+          // history.push("/");
+          router.push("/view-team");
           setUser({
             email: "",
             password: "",
@@ -53,41 +59,43 @@ const Login = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <Container>
-      <Form onSubmit={handleSubmit} error={error.error}>
-        <Form.Field>
-          <label>Email</label>
-          <input
-            type="email"
-            required
-            name="email"
-            onChange={handleChange}
-            value={user.email}
-            placeholder="Email"
-          />
-        </Form.Field>
+    <Layout>
+      <Container>
+        <Form onSubmit={handleSubmit} error={error.error}>
+          <Form.Field>
+            <label>Email</label>
+            <input
+              type="email"
+              required
+              name="email"
+              onChange={handleChange}
+              value={user.email}
+              placeholder="Email"
+            />
+          </Form.Field>
 
-        <Form.Field>
-          <label>Password</label>
-          <input
-            type="password"
-            required
-            name="password"
-            onChange={handleChange}
-            value={user.password}
-            placeholder="Password"
-          />
-        </Form.Field>
-        {error.error && (
-          <Message
-            error={error.error}
-            header="Action Forbidden"
-            content={error.message}
-          />
-        )}
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Container>
+          <Form.Field>
+            <label>Password</label>
+            <input
+              type="password"
+              required
+              name="password"
+              onChange={handleChange}
+              value={user.password}
+              placeholder="Password"
+            />
+          </Form.Field>
+          {error.error && (
+            <Message
+              error={error.error}
+              header="Action Forbidden"
+              content={error.message}
+            />
+          )}
+          <Button type="submit">Submit</Button>
+        </Form>
+      </Container>
+    </Layout>
   );
 };
 

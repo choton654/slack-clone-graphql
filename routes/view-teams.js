@@ -1,5 +1,6 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import { navigate } from "@reach/router";
+import router from "next/router";
+import { useHistory } from "react-router-dom";
 import findIndex from "lodash/findIndex";
 import React from "react";
 import AppLayout from "../components/AppLayout";
@@ -10,7 +11,10 @@ import Sidebar from "../containers/Sidebar";
 import { createMessageMutation } from "../graphql/mutation";
 import { meQuery } from "../graphql/query";
 
-function ViewTeams({ teamId, channelId }) {
+function ViewTeams(props) {
+  const history = useHistory();
+  const { teamId, channelId } = props.computedMatch.params;
+
   const { loading, error, data } = useQuery(meQuery, {
     fetchPolicy: "network-only",
   });
@@ -18,11 +22,11 @@ function ViewTeams({ teamId, channelId }) {
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
   if (error?.message === "Not authenticated") {
-    navigate("/login");
+    router.push("/login");
   }
 
   if (!error && !data.me.teams.length) {
-    navigate("/app/create-team");
+    router.push("/create-team");
   }
 
   const teamIdx = teamId ? findIndex(data.me.teams, ["id", teamId]) : 0;

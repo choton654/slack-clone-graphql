@@ -1,7 +1,7 @@
-import { navigate } from "@reach/router";
-import { useHistory } from "react-router-dom";
 import decode from "jwt-decode";
+import router from "next/router";
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
   const history = useHistory();
@@ -18,13 +18,14 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
       // }
       return true;
     } catch (err) {
-      window.location.hash = "app/login";
+      window.location.hash = "/login";
       return false;
     }
   };
 
   if (!isAuthenticated() && location.pathname !== `/login`) {
-    history.pushState("/login");
+    // history.push("/login");
+    router.push("/login");
     return null;
   }
 

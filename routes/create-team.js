@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { navigate } from "@reach/router";
+import router from "next/router";
 import React, { useState } from "react";
 import { Button, Container, Form, Message } from "semantic-ui-react";
 import { CREATE_TEAM } from "../graphql/mutation";
@@ -32,7 +32,7 @@ const CreateTeam = () => {
           });
         } else {
           setTeam("");
-          navigate(`/app/view-team/${res.data.createTeam.team.id}`);
+          router.push(`/view-team/${res.data.createTeam.team.id}`);
         }
       })
       .catch((err) => {

@@ -6,11 +6,9 @@ function MyApp({ Component, pageProps, props }) {
   return (
     <div suppressHydrationWarning>
       {typeof window === "undefined" ? null : (
-        <Layout {...pageProps}>
-          <ApolloProvider client={client}>
-            <Component {...pageProps} />
-          </ApolloProvider>
-        </Layout>
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       )}
     </div>
   );

@@ -63,7 +63,8 @@ const httpLinkWithMiddleware = afterwareLink.concat(
 
 const wsLink = process.browser
   ? new WebSocketLink({
-      uri: `wss://sheltered-river-81197.herokuapp.com/graphql`,
+      // uri: `wss://sheltered-river-81197.herokuapp.com/graphql`,
+      uri: `ws://localhost:3000/graphql`,
       options: {
         reconnect: true,
         lazy: true,

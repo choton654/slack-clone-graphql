@@ -1,4 +1,4 @@
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
 import React from "react";
 import { Icon } from "semantic-ui-react";
 import styled from "styled-components";
@@ -58,7 +58,7 @@ function Channels({
 }) {
   const dmChannel = ({ id, name }, teamId) => (
     <SideBarListItem key={`user-${id}`}>
-      <Link to={`/app/view-team/${teamId}/${id}`}>
+      <Link to={`/view-team/${teamId}/${id}`}>
         <Bubble /> {name}
       </Link>
     </SideBarListItem>
@@ -79,7 +79,7 @@ function Channels({
             )}
           </SideBarListHeader>
           {channels?.map(({ id, name }) => (
-            <Link key={`channel-${id}`} to={`/app/view-team/${teamId}/${id}`}>
+            <Link key={`channel-${id}`} to={`/view-team/${teamId}/${id}`}>
               <SideBarListItem>#{name}</SideBarListItem>
             </Link>
           ))}
