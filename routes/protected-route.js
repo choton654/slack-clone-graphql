@@ -10,17 +10,21 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
     const refreshToken = localStorage.getItem("refreshToken");
     try {
       decode(token);
-      decode(refreshToken);
+      // decode(refreshToken);
       // const currentTime = Date.now() / 1000
       // const decode = jwt_decode(token)
       // if (decode.exp < currentTime) {
       //   token = null
       // }
-      return true;
+      const { exp } = decode(refreshToken);
+      if (Date.now() / 1000 > exp) {
+        return false;
+      }
     } catch (err) {
       window.location.hash = "/login";
       return false;
     }
+    return true;
   };
 
   if (!isAuthenticated() && location.pathname !== `/login`) {

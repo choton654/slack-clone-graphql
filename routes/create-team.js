@@ -1,11 +1,13 @@
 import { useMutation } from "@apollo/client";
 import router from "next/router";
+import { useHistory } from "react-router-dom";
 import React, { useState } from "react";
 import { Button, Container, Form, Message } from "semantic-ui-react";
 import { CREATE_TEAM } from "../graphql/mutation";
 import { allTeamsQuery, meQuery } from "../graphql/query";
 
 const CreateTeam = () => {
+  const history = useHistory();
   const [team, setTeam] = useState("");
   const [error, setError] = useState({
     ok: false,
@@ -32,7 +34,7 @@ const CreateTeam = () => {
           });
         } else {
           setTeam("");
-          router.push(`/view-team/${res.data.createTeam.team.id}`);
+          history.push(`/view-team/${res.data.createTeam.team.id}`);
         }
       })
       .catch((err) => {

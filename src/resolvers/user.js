@@ -1,5 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
-const mongoose = require("mongoose");
+const { ObjectId } = require("mongoose").Types;
 const User = require("../models/user");
 const requireAuth = require("../middleware/permission");
 const Member = require("../models/member");
@@ -27,9 +27,7 @@ module.exports = {
         const memberTeams = await Team.find({ _id: [...teamIds] });
 
         teams = [...memberTeams];
-
-        // console.log(teams);
-
+        console.log(req.user, teams, members);
         return teams;
       } catch (error) {
         console.error(error);

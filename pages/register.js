@@ -62,7 +62,7 @@ const Register = () => {
         });
         // router.push("/");
         if (isServer) {
-          window.location.assign("/create-team");
+          window.location.assign("/login");
         }
       })
       .catch((err) => {

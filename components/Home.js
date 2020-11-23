@@ -24,7 +24,7 @@ const Home = () => {
       </Header>
       <List style={{ textAlign: "center" }}>
         {data.allUsers.map((user) => (
-          <List.Content style={{ marginTop: "20px" }}>
+          <List.Content key={user.id} style={{ marginTop: "20px" }}>
             <List.Header as="h3" style={{ margin: 0 }}>
               {user.username}
             </List.Header>
