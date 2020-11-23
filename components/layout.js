@@ -14,9 +14,6 @@ const Layout = ({ children }) => {
         <NextLink href="/login">
           <Menu.Item>Login</Menu.Item>
         </NextLink>
-        <NextLink href="/about">
-          <Menu.Item>About</Menu.Item>
-        </NextLink>
       </Menu>
       {children}
     </div>

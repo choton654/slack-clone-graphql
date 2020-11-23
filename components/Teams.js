@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
-
+import { Popup, Button } from "semantic-ui-react";
 const TeamWrapper = styled.div`
   grid-column: 1;
   grid-row: 1 / 4;
@@ -34,6 +34,8 @@ const TeamListItem = styled.li`
   }
 `;
 
+const isServer = typeof window !== undefined;
+
 function Teams({ teams }) {
   return (
     <TeamWrapper>
@@ -43,6 +45,31 @@ function Teams({ teams }) {
             <TeamListItem>{letter}</TeamListItem>
           </Link>
         ))}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Popup
+            content="logout"
+            trigger={
+              <Button
+                icon="log out"
+                onClick={() => {
+                  if (isServer) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("refreshToken");
+                    window.location.assign("/");
+                  }
+                }}
+              />
+            }
+            // name="log out"
+            // size="big"
+          />
+        </div>
       </TeamList>
     </TeamWrapper>
   );

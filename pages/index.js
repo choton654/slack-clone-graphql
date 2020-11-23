@@ -1,4 +1,3 @@
-// import { Router } from "@reach/router";
 import NextLink from "next/link";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
@@ -12,9 +11,9 @@ const App = () => {
   return (
     <Router>
       <Menu style={{ marginBottom: 0, marginTop: 0 }}>
-        <NextLink href="/">
+        <Link to="/">
           <Menu.Item>Home</Menu.Item>
-        </NextLink>
+        </Link>
         <Link to="/view-team">
           <Menu.Item>View Team</Menu.Item>
         </Link>
@@ -26,9 +25,6 @@ const App = () => {
         </NextLink>
         <NextLink href="/login">
           <Menu.Item>Login</Menu.Item>
-        </NextLink>
-        <NextLink href="/about">
-          <Menu.Item>About</Menu.Item>
         </NextLink>
       </Menu>
       <Switch>

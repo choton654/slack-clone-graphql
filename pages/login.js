@@ -6,6 +6,8 @@ import { Button, Container, Form, Message } from "semantic-ui-react";
 import Layout from "../components/layout";
 import { USER_LOGIN } from "../graphql/mutation";
 
+const isServer = typeof window !== undefined;
+
 const Login = () => {
   const history = useHistory();
 
@@ -46,10 +48,10 @@ const Login = () => {
             "refreshToken",
             data.data.loginUser.refreshToken
           );
-          // wsLink.subscriptionClient.tryConnect()
-          // navigate("/app");
-          // history.push("/");
-          router.push("/view-team");
+          if (isServer) {
+            window.location.assign("/view-team");
+          }
+          // router.push("/view-team");
           setUser({
             email: "",
             password: "",
