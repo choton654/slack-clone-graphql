@@ -11,6 +11,8 @@ import Sidebar from "../containers/Sidebar";
 import { createMessageMutation } from "../graphql/mutation";
 import { meQuery } from "../graphql/query";
 
+const isServer = typeof window !== undefined;
+
 function ViewTeams(props) {
   const history = useHistory();
   const { teamId, channelId } = props.computedMatch.params;
@@ -26,7 +28,10 @@ function ViewTeams(props) {
   }
 
   if (!error && !data.me.teams.length) {
-    router.push("/create-team");
+    // router.push("/create-team");
+    if (isServer) {
+      window.location.assign("/create-team");
+    }
   }
 
   const teamIdx = teamId ? findIndex(data.me.teams, ["id", teamId]) : 0;

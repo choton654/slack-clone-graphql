@@ -6,6 +6,8 @@ import Layout from "../components/layout";
 import { CREATE_USER } from "../graphql/mutation";
 import { GET_USERS } from "../graphql/query";
 
+const isServer = typeof window !== undefined;
+
 const Register = () => {
   const [user, setUser] = useState({
     username: "",
@@ -58,7 +60,10 @@ const Register = () => {
           ...error,
           error: false,
         });
-        router.push("/");
+        // router.push("/");
+        if (isServer) {
+          window.location.assign("/create-team");
+        }
       })
       .catch((err) => {
         console.error(err.message);
