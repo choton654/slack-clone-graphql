@@ -18,8 +18,9 @@ import "semantic-ui-css/semantic.min.css";
 let token, refreshToken;
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3000/graphql",
-  // "https://sheltered-river-81197.herokuapp.com/graphql",
+  // uri: "http://localhost:3000/graphql",
+  uri: "https://slack-clone-next-graphql.herokuapp.com/graphql",
+  // uri: "https://sheltered-river-81197.herokuapp.com/graphql",
   fetch,
 });
 
@@ -60,11 +61,12 @@ const afterwareLink = new ApolloLink((operation, forward) =>
 const httpLinkWithMiddleware = afterwareLink.concat(
   middlewareLink.concat(httpLink)
 );
-
+// https://slack-clone-next-graphql.herokuapp.com/
 const wsLink = process.browser
   ? new WebSocketLink({
       // uri: `wss://sheltered-river-81197.herokuapp.com/graphql`,
-      uri: `ws://localhost:3000/graphql`,
+      uri: `wss://slack-clone-next-graphql.herokuapp.com/graphql`,
+      // uri: `ws://localhost:3000/graphql`,
       options: {
         reconnect: true,
         lazy: true,
